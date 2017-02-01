@@ -27,17 +27,19 @@ data MajorIndustryIdentifier =
     | Telecom 
     | NationalAssigment deriving (Show)
 
-doubleEveryOther (a,b) 
-    | a `mod` 2 == 0 = (a,sumIfNeeded (2*b))
-    | otherwise  = (a,b)
+doubleEveryOther (index,value) 
+    | even index = sumDigits (2 * value)
+    | otherwise  = value
 
-sumIfNeeded a
-    | a >= 10 = a-9
-    | otherwise = a
+sumDigits 0 = 0
+sumDigits x
+    | modulo == 0 = 9
+    | otherwhise  = modulo
+    where  modulo = x `mod` 9
 
-chunkIndexed = reverse . snd . unzip . (map doubleEveryOther) . (zip [1..]) . reverse
-checksum xs = foldl (+) 0 $ chunkIndexed xs
-luhn xs = mod (checksum xs) 10 == 0
+chunkIndexed = reverse . (map doubleEveryOther) . (zip [1..]) . reverse
+checksum = sum . chunkIndexed
+luhn xs = (checksum xs) `mod` 10 == 0
 
 cardIssuer :: Integral a => [a] -> Maybe CreditCardIssuer
 cardIssuer []    = Nothing
