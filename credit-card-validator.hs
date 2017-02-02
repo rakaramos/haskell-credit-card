@@ -57,9 +57,9 @@ validateCreditCardNumber = isValidSum . getChecksum . (map digitToInt)
 
 
 -- Concat prefix with each prefix digit
-(+|+) :: CreditCardPrefix -> [CreditCardDigit] -> [CreditCardPrefix]
-(+|+) prefix digits = map ((prefix ++) . (:[])) digits
---(+|+) prefix digits = map (\d ->  prefix ++ [d]) digits
+(+<‡) :: CreditCardPrefix -> [CreditCardDigit] -> [CreditCardPrefix]
+(+<‡) prefix digits = map ((prefix ++) . (:[])) digits
+--(+<‡) prefix digits = map (\d ->  prefix ++ [d]) digits
 
 hasAnyPrefixIn :: CreditCardNumber -> [CreditCardPrefix] -> Bool
 hasAnyPrefixIn cc prefixes = any (`isPrefixOf` cc) prefixes
@@ -67,9 +67,9 @@ hasAnyPrefixIn cc prefixes = any (`isPrefixOf` cc) prefixes
 getCardIssuer :: CreditCardNumber -> Maybe CreditCardIssuer
 getCardIssuer cc
     | cc `hasAnyPrefixIn` ["4"]                = Just Visa
-    | cc `hasAnyPrefixIn` ("5" +|+ ['1'..'5']) = Just Mastercard
-    | cc `hasAnyPrefixIn` ("3" +|+ ['4', '7']) = Just Amex
-    | cc `hasAnyPrefixIn` ("3" +|+ ['6', '8']) = Just Diners
+    | cc `hasAnyPrefixIn` ("5" +<‡ ['1'..'5']) = Just Mastercard
+    | cc `hasAnyPrefixIn` ("3" +<‡ ['4', '7']) = Just Amex
+    | cc `hasAnyPrefixIn` ("3" +<‡ ['6', '8']) = Just Diners
     | cc `hasAnyPrefixIn` ["6011", "65"]       = Just Discover
     | otherwise                                = Nothing
 
