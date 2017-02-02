@@ -49,9 +49,11 @@ sumDigits x
 getChecksum :: Integral a => [a] -> a
 getChecksum = sum . reverse . (map doubleEveryOther) . (zip [1..]) . reverse
 
+isValidSum :: Integral a => a -> Bool
+isValidSum sum = sum `mod` 10 == 0
 
 validateCreditCardNumber :: CreditCardNumber -> Bool
-validateCreditCardNumber cc = ((getChecksum . (map digitToInt)) cc) `mod` 10 == 0
+validateCreditCardNumber = isValidSum . getChecksum . (map digitToInt)
 
 
 -- Concat prefix with each prefix digit
